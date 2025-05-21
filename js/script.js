@@ -175,7 +175,7 @@
         function journalTrades() {
             Swal.fire({
                 title: 'Journal Trades',
-                text: 'Journal Trades functionality to be implemented.',
+                text: 'Journal Page still under development.',
                 icon: 'info',
                 confirmButtonColor: '#f67421'
             });
@@ -184,16 +184,7 @@
         function showNews() {
             Swal.fire({
                 title: 'News',
-                text: 'News functionality to be implemented.',
-                icon: 'info',
-                confirmButtonColor: '#f67421'
-            });
-        }
-
-        function showPortfolio() {
-            Swal.fire({
-                title: 'My Portfolio',
-                text: 'Portfolio functionality to be implemented.',
+                text: 'News functionality will be supported soon!',
                 icon: 'info',
                 confirmButtonColor: '#f67421'
             });
