@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zack FX Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://s3.tradingview.com/tv.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            background: #000000;
+            border-bottom: 2px solid #f67421;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: 60px;
+            background: #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px dashed #f67421;
+            color: #f67421;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            margin-right: 1rem;
+        }
+
+        h1 {
+            color: #f67421;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        nav {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: #f67421;
+        }
+
+        .telegram-button {
+            background: #000000;
+            border: 2px solid #f67421;
+            color: #ffffff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .telegram-button:hover {
+            background: #f67421;
+            color: #ffffff;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0.5rem;
+            max-width: 100%;
+            margin: 0 5px;
+            gap: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .calculator {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(246, 116, 33, 0.5);
+            width: 25%;
+            max-width: 320px;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group {
+            margin-bottom: 0.8rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            color: #f67421;
+            margin-bottom: 0.3rem;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.6rem;
+            border: none;
+            border-radius: 6px;
+            background: #222;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: box-shadow 0.3s;
+        }
+
+        input:focus, select:focus {
+            box-shadow: 0 0 6px #f67421;
+        }
+
+        button {
+            width: 100%;
+            padding: 0.8rem;
+            background: #f67421;
+            color: #000000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        button:hover {
+            background: #ff8c40;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .chart-container {
+            width: 75%;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(246, 116, 33, 0.5);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chart-container.fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 200;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .toggle-container {
+            display: none;
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .toggle-wrapper {
+            display: inline-flex;
+            background: #222;
+            border: 2px solid #f67421;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .toggle-button {
+            background: #222;
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .toggle-button.active, .toggle-button:hover {
+            background: #f67421;
+            color: #ffffff;
+        }
+
+        .fullscreen-button, .exit-fullscreen-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f67421;
+            color: #000000;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 210;
+            transition: all 0.3s;
+        }
+
+        .fullscreen-button:hover, .exit-fullscreen-button:hover {
+            background: #ff8c40;
+            color: #ffffff;
+        }
+
+        .exit-fullscreen-button {
+            display: none;
+        }
+
+        .chart-container.fullscreen .fullscreen-button {
+            display: none;
+        }
+
+        .chart-container.fullscreen .exit-fullscreen-button {
+            display: block;
+        }
+
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+                padding: 0.5rem;
+            }
+
+            .toggle-container {
+                display: block;
+            }
+
+            .calculator {
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+                display: none;
+            }
+
+            .calculator.active {
+                display: flex;
+            }
+
+            .chart-container {
+                width: 100%;
+                display: none;
+            }
+
+            .chart-container.active {
+                display: block;
+            }
+
+            .chart-container.fullscreen {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 200;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.8rem 0.5rem;
+            }
+
+            .header-left {
+                margin-bottom: 0.4rem;
+            }
+
+            h1 {
+                font-size: 1.3rem;
+            }
+
+            .logo-placeholder {
+                width: 50px;
+                height: 50px;
+                font-size: 0.6rem;
+            }
+
+            nav {
+                flex-direction: column;
+                gap: 0.4rem;
+                align-items: flex-start;
+            }
+
+            .nav-link, .telegram-button {
+                font-size: 0.8rem;
+            }
+
+            .calculator {
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <div class="logo-placeholder"><img src="images/zack-fx-logo.jpg" alt="zack-fx-logo" style="border-radius: 50%;height: 80px;width: 80px;"></div>
+            <h1>Zack FX Calculator</h1>
+        </div>
+        <nav>
+            <a href="#" class="nav-link" onclick="journalTrades()">Journal Trades</a>
+            <a href="#" class="nav-link" onclick="showNews()">News</a>
+            <a href="#" class="nav-link" onclick="showPortfolio()">My Portfolio</a>
+            <a href="https://t.me/your_channel" class="telegram-button" target="_blank">Join Telegram</a>
+        </nav>
+    </header>
+    <div class="toggle-container">
+        <div class="toggle-wrapper">
+            <button class="toggle-button active" onclick="toggleView('calculator')">Calculator</button>
+            <button class="toggle-button" onclick="toggleView('chart')">Markets</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="chart-container" id="tradingview_chart">
+            <button class="fullscreen-button" onclick="toggleFullscreen()">Full Screen</button>
+            <button class="exit-fullscreen-button" onclick="toggleFullscreen()">Exit Full Screen</button>
+        </div>
+        <div class="calculator active">
+            <div class="input-group">
+                <label for="instrument">Instrument (e.g., EUR/USD, GBP/JPY, XAU/USD)</label>
+                <input type="text" id="instrument" placeholder="e.g., EURUSD, GBPJPY, XAUUSD" required>
+            </div>
+            <div class="input-group">
+                <label for="lot-size">Lot Size</label>
+                <input type="number" id="lot-size" step="0.01" min="0.01" placeholder="e.g., 1.0" required>
+            </div>
+            <div class="input-group">
+                <label for="entry-price">Entry Price</label>
+                <input type="number" id="entry-price" step="0.00001" placeholder="e.g., 1.12870" required>
+            </div>
+            <div class="input-group">
+                <label for="stop-loss">Stop Loss</label>
+                <input type="number" id="stop-loss" step="0.00001" placeholder="e.g., 1.12105" required>
+            </div>
+            <div class="input-group">
+                <label for="take-profit">Take Profit</label>
+                <input type="number" id="take-profit" step="0.00001" placeholder="e.g., 1.15408" required>
+            </div>
+            <button onclick="calculate()">Calculate</button>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
