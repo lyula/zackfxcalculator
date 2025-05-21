@@ -88,89 +88,97 @@
         }
 
         function calculate() {
-            let instrument = document.getElementById('instrument').value;
-            instrument = normalizeInstrument(instrument);
-            const lotSize = parseFloat(document.getElementById('lot-size').value);
-            const entryPrice = parseFloat(document.getElementById('entry-price').value);
-            const stopLoss = parseFloat(document.getElementById('stop-loss').value);
-            const takeProfit = parseFloat(document.getElementById('take-profit').value);
+    let instrument = document.getElementById('instrument').value;
+    instrument = normalizeInstrument(instrument);
+    const lotSize = parseFloat(document.getElementById('lot-size').value);
+    const entryPrice = parseFloat(document.getElementById('entry-price').value);
+    const stopLoss = parseFloat(document.getElementById('stop-loss').value);
+    const takeProfit = parseFloat(document.getElementById('take-profit').value);
 
-            // Validate inputs
-            if (!instrument || isNaN(lotSize) || isNaN(entryPrice) || isNaN(stopLoss) || isNaN(takeProfit)) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Please fill all fields with valid values.',
-                    icon: 'error',
-                    confirmButtonColor: '#f67421'
-                });
-                return;
-            }
+    // Validate inputs
+    if (!instrument || isNaN(lotSize) || isNaN(entryPrice) || isNaN(stopLoss) || isNaN(takeProfit)) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Please fill all fields with valid values.',
+            icon: 'error',
+            confirmButtonColor: '#f67421'
+        });
+        return;
+    }
 
-            // Validate instrument
-            if (!isValidInstrument(instrument)) {
-                Swal.fire({
-                    title: 'Invalid Instrument',
-                    text: 'Invalid instrument. Please use a supported forex pair (e.g., EUR/USD, GBP/JPY), metal (e.g., XAU/USD), or commodity (e.g., WTI/USD).',
-                    icon: 'error',
-                    confirmButtonColor: '#f67421'
-                });
-                return;
-            }
+    // Validate instrument
+    if (!isValidInstrument(instrument)) {
+        Swal.fire({
+            title: 'Invalid Instrument',
+            text: 'Invalid instrument. Please use a supported forex pair (e.g., EUR/USD, GBP/JPY), metal (e.g., XAU/USD), or commodity (e.g., WTI/USD).',
+            icon: 'error',
+            confirmButtonColor: '#f67421'
+        });
+        return;
+    }
 
-            // Determine trade direction
-            const tradeDirection = determineTradeDirection(entryPrice, stopLoss, takeProfit);
-            if (tradeDirection === 'Invalid') {
-                Swal.fire({
-                    title: 'Invalid Trade Setup',
-                    text: 'The entry price, stop loss, and take profit values do not form a valid long or short position.',
-                    icon: 'error',
-                    confirmButtonColor: '#f67421'
-                });
-                return;
-            }
+    // Determine trade direction
+    const tradeDirection = determineTradeDirection(entryPrice, stopLoss, takeProfit);
+    if (tradeDirection === 'Invalid') {
+        Swal.fire({
+            title: 'Invalid Trade Setup',
+            text: 'The entry price, stop loss, and take profit values do not form a valid long or short position.',
+            icon: 'error',
+            confirmButtonColor: '#f67421'
+        });
+        return;
+    }
 
-            // Calculate pips
-            const pipMultiplier = getPipMultiplier(instrument);
-            const pipsRisked = Math.abs((entryPrice - stopLoss) * pipMultiplier);
-            const pipsTargeted = Math.abs((takeProfit - entryPrice) * pipMultiplier);
+    // Calculate pips
+    const pipMultiplier = getPipMultiplier(instrument);
+    const pipsRisked = Math.abs((entryPrice - stopLoss) * pipMultiplier);
+    const pipsTargeted = Math.abs((takeProfit - entryPrice) * pipMultiplier);
 
-            // Calculate risk in USD
-            const pipValue = calculatePipValue(instrument, lotSize);
-            if (!pipValue) {
-                Swal.fire({
-                    title: 'Error',
-                    text: 'Unable to calculate pip value for this instrument.',
-                    icon: 'error',
-                    confirmButtonColor: '#f67421'
-                });
-                return;
-            }
-            const riskUSD = pipsRisked * pipValue;
+    // Calculate pip value
+    const pipValue = calculatePipValue(instrument, lotSize);
+    if (!pipValue) {
+        Swal.fire({
+            title: 'Error',
+            text: 'Unable to calculate pip value for this instrument.',
+            icon: 'error',
+            confirmButtonColor: '#f67421'
+        });
+        return;
+    }
 
-            // Calculate Risk-to-Reward Ratio
-            const rrRatio = pipsTargeted / pipsRisked;
+    const riskUSD = pipsRisked * pipValue;
+    const expectedProfit = pipsTargeted * pipValue;
 
-            // Determine trade recommendation
-            const isGoodTrade = rrRatio >= 2;
-            const alertMessage = isGoodTrade
-                ? 'Zack FX thinks this is a nice trade, take it!'
-                : 'Zack FX thinks this trade is unfit, consider waiting for a better set up';
+    // Calculate Risk-to-Reward Ratio
+    const rrRatio = pipsTargeted / pipsRisked;
 
-            // Display results in SweetAlert2
-            Swal.fire({
-                title: 'Trade Analysis',
-                html: `
-                    <p><strong>Trade Direction:</strong> ${tradeDirection}</p>
-                    <p><strong>Risk Amount:</strong> $${riskUSD.toFixed(2)}</p>
-                    <p><strong>Pips Risked:</strong> ${pipsRisked.toFixed(1)}</p>
-                    <p><strong>Pips Targeted:</strong> ${pipsTargeted.toFixed(1)}</p>
-                    <p><strong>Risk-to-Reward Ratio:</strong> 1:${rrRatio.toFixed(2)}</p>
-                    <p style="color: ${isGoodTrade ? '#28a745' : '#dc3545'}; font-weight: bold;">${alertMessage}</p>
-                `,
-                icon: isGoodTrade ? 'success' : 'warning',
-                confirmButtonColor: '#f67421'
-            });
-        }
+    // Trade suggestion
+    const isGoodTrade = rrRatio >= 2;
+    const alertMessage = isGoodTrade
+        ? 'Zack FX thinks this is a nice trade, take it!'
+        : 'Zack FX thinks this trade is unfit, consider waiting for a better set up';
+
+    // Show results
+   Swal.fire({
+    title: 'Trade Analysis',
+    html: `
+        <p><strong>Trade Direction:</strong> ${tradeDirection}</p>
+        <p><strong>Lot Size:</strong> ${lotSize}</p>
+        <p><strong>Instrument:</strong> ${instrument.toUpperCase()}</p>
+        <p><strong>Pip Value:</strong> $${pipValue.toFixed(2)} per pip</p>
+        <p><strong>Pips Risked:</strong> ${pipsRisked.toFixed(1)}</p>
+         <p><strong>Risk Amount:</strong> $${riskUSD.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p><strong>Pips Targeted:</strong> ${pipsTargeted.toFixed(1)}</p>
+        <p><strong>Expected Profit:</strong> $${expectedProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
+        <p><strong>Risk-to-Reward Ratio:</strong> 1:${rrRatio.toFixed(2)}</p>
+        <p style="color: ${isGoodTrade ? '#28a745' : '#dc3545'}; font-weight: bold;">${alertMessage}</p>
+    `,
+    icon: isGoodTrade ? 'success' : 'warning',
+    confirmButtonColor: '#f67421'
+});
+
+}
+
 
         function journalTrades() {
             Swal.fire({
