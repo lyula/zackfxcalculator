@@ -1,4 +1,4 @@
- * {
+* {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -243,6 +243,83 @@
             display: block;
         }
 
+        /* Make navbar title smaller on mobile */
+        @media (max-width: 600px) {
+            .navbar-title {
+                font-size: 1.1rem;
+                margin-left: 10px;
+            }
+            .header-left {
+                align-items: center;
+            }
+        }
+
+        /* Hamburger menu styles */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            z-index: 1001;
+            padding: 0;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 28px;
+            height: 3px;
+            background: #ff8c40;
+            margin: 4px 0;
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* Hide nav links and show hamburger on mobile */
+        @media (max-width: 900px) {
+            nav#navbar-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                right: 10px;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+                flex-direction: column;
+                min-width: 180px;
+                z-index: 1000;
+                padding: 10px 0;
+            }
+            nav#navbar-links.show {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .header-left h1 {
+                font-size: 1.1rem;
+            }
+            .nav-link, .telegram-button {
+                padding: 12px 20px;
+                text-align: left;
+                width: 100%;
+                display: block;
+                color: #333;
+                background: none;
+                border: none;
+                font-size: 1rem;
+            }
+            .nav-link:hover, .telegram-button:hover {
+                background: #ff8c40;
+                color: #fff;
+            }
+        }
+
         @media (max-width: 900px) {
             .main-content {
                 flex-direction: column;
@@ -251,6 +328,8 @@
 
             .toggle-container {
                 display: block;
+                padding-top: 1rem;
+                padding-bottom: 1rem;
             }
 
             .calculator {
@@ -285,38 +364,23 @@
 
         @media (max-width: 600px) {
             header {
-                flex-direction: column;
-                align-items: flex-start;
-                padding: 0.8rem 0.5rem;
+                flex-direction: row;         /* Keep row layout */
+                align-items: center;         /* Center vertically */
+                padding: 1.2rem 0.5rem;
             }
-
             .header-left {
-                margin-bottom: 0.4rem;
+                margin-bottom: 0;            /* Remove bottom margin */
             }
-
-            h1 {
-                font-size: 1.3rem;
+            .navbar-title, h1 {
+                font-size: 1rem !important;  /* Make title smaller */
+                margin-left: 12px;
+                white-space: nowrap;         /* Prevent wrapping */
             }
-
             .logo-placeholder {
-                width: 50px;
-                height: 50px;
-                font-size: 0.6rem;
-            }
-
-            nav {
-                flex-direction: column;
-                gap: 0.4rem;
-                align-items: flex-end;
-                width: 100%;           
-                display: flex; 
-            }
-
-            .nav-link, .telegram-button {
-                font-size: 0.8rem;
-            }
-
-            .calculator {
-                padding: 0.8rem;
+                width: 35px;
+                height: 35px;
+                font-size: 0.5rem;
+                margin-right: 0.5rem;
+                margin-left: 1.5rem;
             }
         }

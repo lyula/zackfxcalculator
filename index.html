@@ -13,10 +13,17 @@
 <body>
     <header>
         <div class="header-left">
-            <div class="logo-placeholder"><img src="images/zack-fx-logo.jpg" alt="zack-fx-logo" style="border-radius: 50%;height: 80px;width: 80px;"></div>
-            <h1>Zack FX Calculator</h1>
+            <div class="logo-placeholder">
+                <img src="images/zack-fx-logo.jpg" alt="zack-fx-logo" style="border-radius: 50%;height: 80px;width: 80px;">
+            </div>
+            <h1 class="navbar-title">Zack FX Calculator</h1>
         </div>
-        <nav>
+        <button class="hamburger" id="hamburger-btn" aria-label="Open navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <nav id="navbar-links">
             <a href="#" class="nav-link" onclick="journalTrades()">Journal Trades</a>
             <a href="#" class="nav-link" onclick="showNews()">News</a>
             <a href="https://zack-lyula-portfolio.vercel.app/" class="nav-link">My Portfolio</a>

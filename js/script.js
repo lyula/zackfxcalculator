@@ -1,4 +1,19 @@
-  // List of ISO 4217 currency codes for forex pairs
+ // Hamburger menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.getElementById('hamburger-btn');
+    const navLinks = document.getElementById('navbar-links');
+    hamburger.addEventListener('click', function() {
+        navLinks.classList.toggle('show');
+    });
+    // Optional: Close menu when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('show');
+        }
+    });
+});
+
+// List of ISO 4217 currency codes for forex pairs
         const currencyCodes = [
             'USD', 'EUR', 'JPY', 'GBP', 'CHF', 'CAD', 'AUD', 'NZD', 'CNY', 'HKD', 
             'SGD', 'NOK', 'SEK', 'DKK', 'TRY', 'MXN', 'ZAR', 'BRL', 'RUB', 'INR',
@@ -296,3 +311,5 @@
             const chartContainer = document.querySelector('.chart-container');
             chartContainer.style.height = `${calculator.offsetHeight}px`;
         });
+
+       
