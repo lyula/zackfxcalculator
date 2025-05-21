@@ -1,14 +1,15 @@
- // Hamburger menu toggle
+// Hamburger menu toggle
 document.addEventListener('DOMContentLoaded', function() {
     const hamburger = document.getElementById('hamburger-btn');
     const navLinks = document.getElementById('navbar-links');
     hamburger.addEventListener('click', function() {
         navLinks.classList.toggle('show');
+        hamburger.classList.toggle('active'); // Add this line
     });
-    // Optional: Close menu when clicking outside
     document.addEventListener('click', function(e) {
         if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
             navLinks.classList.remove('show');
+            hamburger.classList.remove('active'); // Add this line
         }
     });
 });
@@ -312,4 +313,3 @@ document.addEventListener('DOMContentLoaded', function() {
             chartContainer.style.height = `${calculator.offsetHeight}px`;
         });
 
-       
