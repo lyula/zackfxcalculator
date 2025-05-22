@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zack-Fx Journal Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/signup.css">
+</head>
+<body>
+    <main>
+        <div class="signup-card">
+            <h1>Journal Signup</h1>
+            <form action="#">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group country-group">
+                    <label for="country">Country</label>
+                    <div class="country-input-container">
+                        <input type="text" id="country" name="country" required placeholder="Type to select country" autocomplete="off">
+                        <img id="selected-flag" class="selected-flag" alt="Selected country flag">
+                    </div>
+                    <div id="country-list"></div>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-group">
+                        <input type="password" id="password" name="password" required>
+                        <span class="toggle-password" onclick="togglePassword('password')">Show</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <div class="password-group">
+                        <input type="password" id="confirm-password" name="confirm-password" required>
+                        <span class="toggle-password" onclick="togglePassword('confirm-password')">Show</span>
+                    </div>
+                </div>
+                <div class="form-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="terms" name="terms" required>
+                        I agree to the <a href="terms_and_conditions.html">Terms and Conditions</a>
+                    </label>
+                </div>
+                <button type="submit">Sign Up</button>
+            </form>
+            <p class="login-link">Already have an account? <a href="journal_login.html">Log In</a></p>
+             <p class="login-link"> <a href="index.html">Back to homepage</a></p>
+        </div>
+    </main>
+    <footer>© 2025 Zack-Fx. All rights reserved.</footer>
+
+    <script src="js/signup.js"></script>
+        
+</body>
+</html>

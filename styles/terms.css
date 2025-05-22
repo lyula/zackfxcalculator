@@ -1,0 +1,176 @@
+  * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Subtle chart-like background lines */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 19px,
+                rgba(255, 255, 255, 0.05) 20px
+            );
+            z-index: 0;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #2c2c2c;
+            border-bottom: 2px solid #f67421;
+        }
+
+        h1 {
+            color: #f67421;
+            font-size: 2rem;
+            text-transform: uppercase;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        nav {
+            text-align: center;
+            padding: 1rem;
+            background: #2c2c2c;
+        }
+
+        nav a {
+            color: #f67421;
+            text-decoration: none;
+            font-size: 1rem;
+            margin: 0 1rem;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff8c40;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem;
+            z-index: 1;
+        }
+
+        .container {
+            background: #2c2c2c;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid #f67421;
+        }
+
+        h2 {
+            color: #f67421;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        li {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 0.5rem;
+        }
+
+        a {
+            color: #f67421;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            color: #ff8c40;
+        }
+
+        .highlight {
+            color: #f67421;
+            font-weight: bold;
+        }
+
+        .note {
+            background: #333;
+            border-left: 4px solid #f67421;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 5px;
+        }
+
+        .note strong {
+            color: #f67421;
+        }
+
+        footer {
+            background: #2c2c2c;
+            color: #f67421;
+            text-align: center;
+            padding: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            border-top: 2px solid #f67421;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+
+            p, li {
+                font-size: 0.9rem;
+            }
+
+            .container {
+                padding: 1.5rem;
+                max-width: 90%;
+            }
+
+            nav a {
+                display: inline-block;
+                margin: 0.5rem;
+                font-size: 0.9rem;
+            }
+
+            footer {
+                font-size: 0.9rem;
+                padding: 0.8rem;
+            }
+        }

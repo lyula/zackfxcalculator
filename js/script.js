@@ -4,12 +4,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.getElementById('navbar-links');
     hamburger.addEventListener('click', function() {
         navLinks.classList.toggle('show');
-        hamburger.classList.toggle('active'); // Add this line
+        hamburger.classList.toggle('active'); 
     });
     document.addEventListener('click', function(e) {
         if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
             navLinks.classList.remove('show');
-            hamburger.classList.remove('active'); // Add this line
+            hamburger.classList.remove('active');
         }
     });
 });
@@ -208,9 +208,13 @@ document.addEventListener('DOMContentLoaded', function() {
         function showNews() {
             Swal.fire({
                 title: 'News',
-                text: 'News functionality will be supported soon!',
+                text: 'The news events on this page are just mock data for tests purposes. Realtime news will be supported soon!',
                 icon: 'info',
                 confirmButtonColor: '#f67421'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'news.html';
+                }
             });
         }
 
