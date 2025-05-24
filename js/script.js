@@ -191,7 +191,11 @@ document.addEventListener('DOMContentLoaded', function() {
     `,
     icon: isGoodTrade ? 'success' : 'warning',
     confirmButtonColor: '#f67421'
-});
+}).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.html';
+                }
+            });
 
 }
 
